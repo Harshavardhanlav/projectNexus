@@ -1,445 +1,64 @@
-.teacher-calendar-page {
-  padding: 24px;
-  background: linear-gradient(135deg, #f5f7f6 0%, #e8ede9 100%);
-  min-height: calc(100vh - 64px);
-}
-
-.teacher-calendar__container {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* Header */
-.teacher-calendar__header {
-  background: linear-gradient(135deg, #115e42 0%, #1a8359 100%);
-  color: white;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(17, 94, 66, 0.15);
-}
-
-.teacher-calendar__header-content h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.teacher-calendar__header-content p {
-  font-size: 16px;
-  opacity: 0.9;
-}
-
-/* Calendar Wrapper */
-.teacher-calendar__wrapper {
-  padding: 24px;
-  background: white;
-  border-radius: 12px;
-}
-
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.calendar-nav-btn {
-  background: linear-gradient(135deg, #115e42 0%, #1a8359 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  font-size: 18px;
-  transition: all 0.2s ease;
-}
-
-.calendar-nav-btn:hover {
-  transform: scale(1.1);
-}
-
-.calendar-month {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1a2e26;
-  margin: 0;
-}
-
-.calendar-weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.calendar-weekday {
-  text-align: center;
-  font-weight: 600;
-  color: #7a8f85;
-  padding: 12px 0;
-  font-size: 13px;
-  text-transform: uppercase;
-}
-
-.calendar-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-}
-
-.calendar-day {
-  aspect-ratio: 1;
-  border: 1px solid #edf2f0;
-  border-radius: 8px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #f8faf9;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  min-height: 80px;
-}
-
-.calendar-day:hover:not(.empty) {
-  background: white;
-  border-color: #115e42;
-  box-shadow: 0 2px 8px rgba(17, 94, 66, 0.1);
-}
-
-.calendar-day.empty {
-  background: transparent;
-  border: none;
-  cursor: default;
-}
-
-.calendar-day.has-events {
-  background: #f0fdf4;
-  border-color: #115e42;
-}
-
-.calendar-day-number {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1a2e26;
-  margin-bottom: 4px;
-}
-
-.calendar-day-events {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 4px;
-}
-
-.calendar-event-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-/* Legend */
-.calendar-legend {
-  padding: 16px;
-  background: #f8faf9;
-  border-radius: 8px;
-  display: flex;
-  gap: 24px;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #5c6f67;
-}
-
-.legend-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-/* Events List */
-.events-list {
-  padding: 24px;
-}
-
-.events-list h3 {
-  margin: 0 0 16px 0;
-  font-size: 18px;
-  color: #1a2e26;
-}
-
-.events-items {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.event-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  background: #f8faf9;
-  border-radius: 8px;
-  border: 1px solid #edf2f0;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.event-item:hover {
-  background: white;
-  border-color: #115e42;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.event-color {
-  width: 4px;
-  height: 60px;
-  border-radius: 2px;
-}
-
-.event-content {
-  flex: 1;
-}
-
-.event-date {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a2e26;
-}
-
-.event-title {
-  margin: 6px 0 0 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #115e42;
-}
-
-.event-type {
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  color: #7a8f85;
-  font-weight: 500;
-}
-
-.event-desc {
-  margin: 4px 0 0 0;
-  font-size: 13px;
-  color: #5c6f67;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-/* Modal */
-.event-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.event-modal {
-  background: white;
-  border-radius: 12px;
-  padding: 0;
-  position: relative;
-  max-width: 450px;
-  width: 90%;
-  overflow: hidden;
-}
-
-.modal-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #7a8f85;
-  z-index: 10;
-}
-
-.modal-content {
-  padding: 24px;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  gap: 12px;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-  color: #1a2e26;
-  flex: 1;
-}
-
-.modal-day-type {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 6px;
-  color: white;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.modal-date-section {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #edf2f0;
-}
-
-.modal-date {
-  margin: 0 0 4px 0;
-  font-size: 14px;
-  color: #7a8f85;
-  font-weight: 500;
-}
-
-.modal-day {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #115e42;
-}
-
-.modal-description {
-  margin-bottom: 20px;
-  padding: 12px;
-  background: #f8faf9;
-  border-radius: 8px;
-}
-
-.description-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #7a8f85;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.description-text {
-  margin: 0;
-  font-size: 14px;
-  color: #1a2e26;
-  line-height: 1.5;
-}
-
-.modal-details {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.detail-item {
-  display: flex;
-  gap: 12px;
-}
-
-.detail-label {
-  font-weight: 600;
-  color: #7a8f85;
-  min-width: 100px;
-  font-size: 13px;
-}
-
-.detail-value {
-  color: #1a2e26;
-  font-weight: 500;
-  font-size: 13px;
-}
-
-/* Status Display */
-.teacher-calendar__status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 60px 20px;
-  text-align: center;
-  min-height: 300px;
-}
-
-.teacher-calendar__status span {
-  font-size: 16px;
-  color: #5c6f67;
-  font-weight: 500;
-}
-
-.teacher-calendar__error {
-  padding: 24px;
-  background: #fee2e2;
-  border: 1px solid #fecaca;
-  border-radius: 12px;
-  color: #991b1b;
-}
-
-.teacher-calendar__error h3 {
-  margin: 0 0 12px 0;
-}
-
-.teacher-calendar__error p {
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .teacher-calendar-page {
-    padding: 16px;
-  }
-
-  .teacher-calendar__header {
-    padding: 24px;
-  }
-
-  .teacher-calendar__header-content h1 {
-    font-size: 24px;
-  }
-
-  .calendar-month {
-    font-size: 18px;
-  }
-
-  .calendar-days {
-    gap: 4px;
-  }
-
-  .calendar-day {
-    min-height: 60px;
-  }
-
-  .event-modal {
-    max-width: 90%;
-  }
-}
+.teacher-calendar-page { display: flex; flex-direction: column; gap: 24px; width: min(100%,1380px); margin: 0 auto; animation: calendarPageIn .45s ease both; }
+.teacher-calendar__container { display: flex; flex-direction: column; gap: 24px; }
+.teacher-calendar__header { position: relative; min-height: 218px; padding: clamp(26px,4vw,42px); overflow: hidden; border: 0; border-radius: var(--radius-xl); background: #17243a; box-shadow: var(--shadow-lg); }
+.teacher-calendar__header::before, .teacher-calendar__header::after { content: ""; position: absolute; border: 1px solid rgba(88,214,189,.2); border-radius: 50%; pointer-events: none; }
+.teacher-calendar__header::before { width: 430px; height: 430px; right: -125px; bottom: -285px; box-shadow: 0 0 0 34px rgba(88,214,189,.035), 0 0 0 68px rgba(88,214,189,.025); }
+.teacher-calendar__header::after { width: 168px; height: 168px; right: 17%; top: -118px; border-color: rgba(167,139,250,.23); box-shadow: 0 0 0 22px rgba(167,139,250,.035); }
+.teacher-calendar__header-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; min-height: 134px; }
+.teacher-calendar__eyebrow { margin-bottom: 14px; }
+.teacher-calendar__header h1 { margin: 0 0 10px; color: var(--text-primary); font-size: clamp(1.9rem,4vw,3rem); letter-spacing: -.045em; line-height: 1.08; }
+.teacher-calendar__header p { margin: 0; color: var(--text-secondary); font-size: .98rem; line-height: 1.6; }
+.teacher-calendar__wrapper { padding: 18px; overflow: visible !important; border-radius: var(--radius-lg); }
+.teacher-calendar__wrapper .calendar-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 2px 20px; border-bottom: 1px solid var(--border); }
+.teacher-calendar__wrapper .calendar-month { margin: 0; color: var(--text-primary); font-size: 1.15rem; }
+.calendar-nav-btn { min-width: 40px; padding: 8px 11px !important; }
+.teacher-calendar__wrapper .calendar-weekdays, .teacher-calendar__wrapper .calendar-days { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 8px; }
+.teacher-calendar__wrapper .calendar-weekdays { margin: 12px 0 8px; }
+.teacher-calendar__wrapper .calendar-weekday { padding: 10px 6px; color: var(--text-secondary); font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-align: center; text-transform: uppercase; }
+.teacher-calendar__wrapper .calendar-day { position: relative; display: flex; min-height: 92px; flex-direction: column; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); background: rgba(255,255,255,.025); transition: transform .2s,border-color .2s,background .2s; }
+.teacher-calendar__wrapper .calendar-day:not(.empty):hover { z-index: 2; transform: translateY(-2px); border-color: rgba(88,214,189,.45); background: rgba(88,214,189,.07); }
+.teacher-calendar__wrapper .calendar-day.empty { border-color: transparent; background: transparent; }
+.teacher-calendar__wrapper .calendar-day.has-events { box-shadow: inset 0 -2px 0 var(--primary); }
+.calendar-day-number { color: var(--text-primary); font-weight: 700; }
+.calendar-day-events { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.calendar-event-dot { width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 0 4px rgba(88,214,189,.1); }
+.calendar-legend { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px 20px; border-radius: var(--radius-md); }
+.legend-item { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: .8rem; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.events-list { padding: 22px; border-radius: var(--radius-lg); }
+.events-list h3 { margin: 0 0 16px; color: var(--text-primary); }
+.events-items { display: grid; gap: 10px; }
+.event-item { display: flex; gap: 14px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(255,255,255,.025); transition: border-color .2s,transform .2s; }
+.event-item:hover { transform: translateY(-2px); border-color: rgba(88,214,189,.3); }
+.event-color { width: 4px; flex: 0 0 4px; border-radius: 999px; background: var(--primary) !important; }
+.event-content p { margin: 0; }
+.event-date { color: var(--text-secondary); font-size: .78rem; }
+.event-title { margin-top: 4px !important; color: var(--text-primary); font-weight: 700; }
+.event-type { margin-top: 5px !important; color: var(--primary); font-size: .76rem; font-weight: 700; }
+.event-desc { margin-top: 6px !important; color: var(--text-secondary); font-size: .82rem; }
+.teacher-calendar__status, .teacher-calendar__error { display: flex; min-height: 260px; align-items: center; justify-content: center; padding: 28px; text-align: center; }
+.teacher-calendar__status { gap: 12px; color: var(--text-secondary); }
+.teacher-calendar__error { flex-direction: column; }
+.teacher-calendar__error h3 { color: var(--text-primary); }
+.teacher-calendar__error p { color: var(--danger); }
+.event-modal-overlay { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 18px; background: rgba(3,8,17,.72); backdrop-filter: blur(9px); animation: calendarFadeIn .2s ease both; }
+.event-modal { position: relative; width: min(560px,100%); max-height: calc(100vh - 36px); overflow: auto; padding: 0; border-radius: var(--radius-lg); background: #121d30; box-shadow: var(--shadow-lg); animation: calendarModalIn .24s ease both; }
+.modal-close { position: absolute; top: 16px; right: 16px; z-index: 1; min-width: 34px; min-height: 34px; border: 1px solid var(--border); border-radius: 50%; color: var(--text-secondary); background: var(--surface-secondary); }
+.modal-content { padding: 26px; }
+.modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding-right: 42px; }
+.modal-title { margin: 0; color: var(--text-primary); }
+.modal-day-type { padding: 5px 9px; border-radius: 999px; color: var(--primary); background: rgba(88,214,189,.1); font-size: .72rem; font-weight: 700; }
+.modal-date-section { margin: 22px 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(255,255,255,.03); }
+.modal-date, .modal-day { margin: 0; color: var(--text-primary); font-weight: 700; }
+.modal-day { margin-top: 4px; color: var(--text-secondary); font-size: .84rem; }
+.modal-description { padding: 16px 0; border-top: 1px solid var(--border); }
+.description-label, .detail-label { color: var(--text-secondary); font-size: .78rem; font-weight: 700; }
+.description-text { color: var(--text-secondary); line-height: 1.6; }
+.modal-details { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); }
+.detail-item { display: flex; justify-content: space-between; gap: 15px; }
+.detail-value { color: var(--text-primary); font-size: .84rem; font-weight: 700; }
+@keyframes calendarPageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes calendarFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes calendarModalIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 720px) { .teacher-calendar__wrapper { padding: 10px; } .teacher-calendar__wrapper .calendar-weekdays, .teacher-calendar__wrapper .calendar-days { gap: 4px; } .teacher-calendar__wrapper .calendar-weekday { padding: 7px 2px; font-size: .58rem; } .teacher-calendar__wrapper .calendar-day { min-height: 62px; padding: 8px; } .calendar-day-events { gap: 4px; } .events-list { padding: 18px; } }
+@media (prefers-reduced-motion: reduce) { .teacher-calendar-page, .event-modal-overlay, .event-modal { animation: none; } }

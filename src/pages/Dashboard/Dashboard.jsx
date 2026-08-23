@@ -14,6 +14,7 @@ import { EventCard } from "../../components/EventCard/EventCard";
 import  EmptyState from "../../components/EmptyState/EmptyState";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
 import { QuickActions } from "../../components/QuickActions/QuickActions";
+import "./Dashboard.css";
 export default function Dashboard() {
   const navigate = useNavigate();
   const [summary, setSummary] = useState(null);

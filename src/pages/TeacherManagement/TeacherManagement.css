@@ -1,148 +1,262 @@
-.teacher-management-header {
+.teacher-management-page {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 24px;
-  margin-bottom: 24px;
-  padding: 30px;
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  animation: teacherPageEnter .45s ease both;
 }
 
-.teacher-management-header h2 {
+.teacher-management-header {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 214px;
+  padding: clamp(26px, 4vw, 42px);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-xl);
+  color: var(--text-primary);
+  background: #17243a;
+  box-shadow: var(--shadow-lg);
+}
+
+/* The nested rings echo the Dashboard snapshot artwork while staying behind content. */
+.teacher-management-header::before,
+.teacher-management-header::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(88, 214, 189, .2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.teacher-management-header::before {
+  width: 430px;
+  height: 430px;
+  right: -125px;
+  bottom: -285px;
+  box-shadow: 0 0 0 34px rgba(88, 214, 189, .035), 0 0 0 68px rgba(88, 214, 189, .025);
+}
+
+.teacher-management-header::after {
+  width: 168px;
+  height: 168px;
+  right: 17%;
+  top: -118px;
+  border-color: rgba(167, 139, 250, .23);
+  box-shadow: 0 0 0 22px rgba(167, 139, 250, .035);
+}
+
+.teacher-management-header__copy,
+.teacher-management-add { position: relative; z-index: 1; }
+.teacher-management-header__copy { max-width: 700px; }
+.teacher-management-header__eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--primary);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.teacher-management-header h1 {
+  margin: 0 0 10px;
+  color: var(--text-primary);
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  letter-spacing: -.045em;
+  line-height: 1.08;
+}
+.teacher-management-header p {
   margin: 0;
+  color: var(--text-secondary);
+  font-size: .98rem;
+  line-height: 1.6;
 }
-.teacher-card {
-   border-radius: 20px;
-   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-   padding: 40px;
-   border: 1px solid rgba(255,255,255,0.1);
-   background-color: white;
-   transition: 0.3s ease;
-     color: #090909;
-  padding: 0.7em 1.7em;
-  font-size: 18px;
-  border-radius: 0.5em;
-  background: #e8e8e8;
-  cursor: pointer;
-  border: 1px solid #e8e8e8;
-  transition: all 0.3s;
-  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
-}
-.input-with-icon{
-   position: relative;
-
-   width: 100%;
+.teacher-management-add {
+  flex: 0 0 auto;
+  min-height: 46px !important;
+  padding-inline: 18px !important;
 }
 
-.input-icon{
-   position: absolute;
-
-   left: 12px;
-
-   top: 50%;
-
-   transform: translateY(-50%);
-
-   color: #9ca3af;
-
-   display: flex;
-   align-items: center;
-   justify-content: center;
-
-   pointer-events: none;
-}
-
-.input-with-icon input{
-   width: 100%;
-
-   padding-left: 42px;
-}
-.icon2 {
-  color:black;
-}
-.teacher-card:hover {
-   transform: translateY(-5px);
-   border-color: rgba(255,255,255,0.25);
-}
 .teacher-management-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  gap: 18px;
+}
+
+.teacher-management-page .teacher-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
   padding: 20px;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.014)), var(--surface);
 }
-.teacher-card-image img{
-  height: 150px;
-  width: 150px;
-  margin-left: 60px;
+.teacher-management-page .teacher-card::before {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -104px;
+  top: -92px;
+  border: 1px solid rgba(88, 214, 189, .13);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(88, 214, 189, .025);
+  pointer-events: none;
 }
-.teacher-card-details h3 {
-  text-align: center;
+.teacher-management-page .teacher-card > * { position: relative; z-index: 1; }
+.teacher-card__topline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
 }
-.teacher-management-loading,
-.teacher-management-error {
+.teacher-card-image {
   display: grid;
   place-items: center;
-  min-height: 44vh;
-  gap: 12px;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  overflow: hidden;
+  border: 1px solid rgba(88,214,189,.38);
+  border-radius: 50%;
+  color: var(--primary);
+  background: linear-gradient(145deg, rgba(88,214,189,.2), rgba(167,139,250,.18));
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(0,0,0,.16);
 }
+.teacher-card-image img { width: 100%; height: 100%; object-fit: cover; }
+.teacher-card__identity { min-width: 0; }
+.teacher-card__identity h3 {
+  margin: 0 0 5px;
+  overflow: hidden;
+  color: var(--text-primary);
+  font-size: 1.02rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.teacher-card__identity span {
+  display: block;
+  overflow: hidden;
+  color: var(--primary);
+  font-size: .76rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.teacher-card-details { display: grid; gap: 0; padding: 7px 0 14px; }
+.teacher-card-details p {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(173,197,229,.07);
+  font-size: .8rem;
+}
+.teacher-card-details p:last-child { border-bottom: 0; }
+.teacher-card-details p span { color: var(--text-secondary); }
+.teacher-card-details p strong {
+  max-width: 58%;
+  overflow: hidden;
+  color: var(--text-primary);
+  font-size: .8rem;
+  font-weight: 600;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.teacher-card-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+}
+.teacher-card-actions button { flex: 1; min-height: 38px !important; padding: 8px 11px !important; font-size: .78rem; }
+.teacher-card__edit { color: #061c1b !important; }
+.teacher-card__delete { color: var(--danger) !important; border-color: rgba(255,124,138,.25) !important; background: rgba(255,124,138,.06) !important; }
+.teacher-card__delete:hover { border-color: var(--danger) !important; background: rgba(255,124,138,.13) !important; }
+
+.teacher-management-loading,
+.teacher-management-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  padding: 28px;
+  text-align: center;
+}
+.teacher-management-loading { gap: 12px; color: var(--text-secondary); }
+.teacher-management-error { flex-direction: column; }
+.teacher-management-error h2 { margin: 0 0 8px; color: var(--text-primary); }
+.teacher-management-error p { margin: 0; color: var(--danger); }
 
 .panel-drawer {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: grid;
-  place-items: flex-end center;
-  padding: 24px;
-  z-index: 1100;
+  z-index: 2000;
+  display: flex;
+  justify-content: flex-end;
+  padding: 18px;
+  background: rgba(3, 8, 17, .72);
+  backdrop-filter: blur(9px);
+  animation: teacherFadeIn .2s ease both;
 }
-
 .panel-drawer__content {
-  width: min(560px, 100%);
-  padding: 28px;
-  border-radius: 24px;
+  width: min(680px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: 0;
+  border-radius: var(--radius-lg);
+  background: #121d30;
+  animation: teacherDrawerIn .25s ease both;
 }
-
 .panel-drawer__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 22px;
-}
-
-.teacher-form {
-  display: grid;
   gap: 18px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(18,29,48,.96);
+  backdrop-filter: blur(14px);
+}
+.panel-drawer__header h3 { margin: 0; color: var(--text-primary); font-size: 1.2rem; }
+.panel-drawer__close { min-height: 36px !important; padding: 7px 11px !important; font-size: .78rem; }
+.teacher-form { padding: 24px; }
+.teacher-form .form-row { gap: 16px; }
+.teacher-form label { color: var(--text-secondary); }
+.teacher-form input[type="file"] { padding: 9px; color: var(--text-secondary); }
+.input-with-icon { position: relative; }
+.input-with-icon .input-icon { position: absolute; left: 12px; top: 50%; display: grid; place-items: center; color: var(--primary); transform: translateY(-50%); pointer-events: none; }
+.input-with-icon input { padding-left: 42px; }
+.form-message { margin: 0 0 16px; color: var(--danger); font-size: .85rem; }
+.panel-drawer__cta { display: flex; justify-content: flex-end; padding-top: 7px; }
+
+@keyframes teacherPageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes teacherFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes teacherDrawerIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+@media (max-width: 1120px) { .teacher-management-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .teacher-management-header { align-items: flex-start; flex-direction: column; gap: 22px; min-height: 0; }
+  .teacher-management-add { width: 100%; }
+  .teacher-management-grid { grid-template-columns: 1fr; }
+  .panel-drawer { padding: 0; }
+  .panel-drawer__content { width: 100%; border-radius: 0; }
+  .teacher-form .form-row { grid-template-columns: 1fr; }
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-.form-row input {
-  border: 2px solid #cecece;
-}
-
-.form-row.full {
-  grid-template-columns: 1fr;
-}
-
-.form-message {
-  color: #d32f2f;
-  margin: 0;
-}
-
-.panel-drawer__cta {
-  display: flex;
-  justify-content: flex-end;
-}
-
-@media (max-width: 900px) {
-  .teacher-management-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .teacher-management-page, .panel-drawer, .panel-drawer__content { animation: none; }
 }

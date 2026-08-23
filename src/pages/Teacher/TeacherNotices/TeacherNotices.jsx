@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { getNotices } from "../../../services/api";
-import { NoticeCard } from "../../../components/NoticeCard/NoticeCard";
 import EmptyState from "../../../components/EmptyState/EmptyState";
 import { LoadingSpinner } from "../../../components/LoadingSpinner/LoadingSpinner";
 import "./TeacherNotices.css";
@@ -79,8 +78,9 @@ export default function TeacherNotices() {
         {/* Header */}
         <div className="teacher-notices__header card">
           <div className="teacher-notices__header-content">
-            <h1>📢 Notices</h1>
-            <p>Stay updated with school announcements and important notices</p>
+            <span className="teacher-notices__eyebrow">NEXUS WORKSPACE</span>
+            <h1>Notices</h1>
+            <p>Keep your community informed</p>
           </div>
         </div>
 

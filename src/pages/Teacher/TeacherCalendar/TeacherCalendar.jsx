@@ -117,8 +117,9 @@ export default function TeacherCalendar() {
         {/* Header */}
         <div className="teacher-calendar__header card">
           <div className="teacher-calendar__header-content">
-            <h1>📅 School Calendar</h1>
-            <p>View holidays, working days, and school events</p>
+            <span className="teacher-calendar__eyebrow">NEXUS WORKSPACE</span>
+            <h1>Calendar</h1>
+            <p>View holidays, working days, and school events.</p>
           </div>
         </div>
 

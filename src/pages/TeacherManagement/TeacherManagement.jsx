@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { TeacherCard } from "../../components/TeacherCard/TeacherCard";
 import  EmptyState from "../../components/EmptyState/EmptyState";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
 import { ConfirmModal } from "../../components/ConfirmModal/ConfirmModal";
+import { Pencil, Plus, Trash2, X } from "lucide-react";
 import "./TeacherManagement.css";
 import {
    createTeacher,
@@ -132,13 +132,15 @@ async function confirmDeleteAction() {
 
   return (
     <section className="teacher-management-page">
-      <div className="teacher-management-header card">
-        <div className="page-header-block">
-          <h2>👨‍🏫Teacher Management</h2>
-          <p>Keep teacher records up to date and add new staff profiles.</p>
+      <div className="teacher-management-header">
+        <div className="teacher-management-header__copy">
+          <span className="teacher-management-header__eyebrow">TEACHER MANAGEMENT</span>
+          <h1>Teacher Management</h1>
+          <p>Manage teacher records, staff details, and profiles.</p>
         </div>
-        <button type="button" className="primary" onClick={openCreatePanel}>
-          Add Teacher
+        <button type="button" className="primary teacher-management-add" onClick={openCreatePanel}>
+          <Plus size={17} aria-hidden="true" />
+          <span>Add Teacher</span>
         </button>
       </div>
 
@@ -167,50 +169,42 @@ async function confirmDeleteAction() {
       key={teacher._id || teacher.teacherID}
     >
 
-      <div className="teacher-card-image">
-
-        <img
-          src={teacher.profilePic}
-          alt={teacher.fullName}
-        />
-
+      <div className="teacher-card__topline">
+        <div className="teacher-card-image">
+          {teacher.profilePic ? (
+            <img src={teacher.profilePic} alt={teacher.fullName} />
+          ) : (
+            <span>{teacher.fullName?.[0] || "T"}</span>
+          )}
+        </div>
+        <div className="teacher-card__identity">
+          <h3>{teacher.fullName}</h3>
+          <span>{teacher.designation || "Teaching staff"}</span>
+        </div>
       </div>
 
       <div className="teacher-card-details">
-
-        <h3>{teacher.fullName}</h3>
-
-        <p>
-          <strong>ID:</strong> {teacher.teacherID}
-        </p>
-
-        <p>
-          <strong>Subject:</strong> {teacher.subjects}
-        </p>
-
-        <p>
-          <strong>Mobile:</strong> {teacher.mobile}
-        </p>
-
-        <p>
-          <strong>Designation:</strong> {teacher.designation}
-        </p>
-
+        <p><span>Teacher ID</span><strong>{teacher.teacherID || "—"}</strong></p>
+        <p><span>Subject</span><strong>{teacher.subjects || "—"}</strong></p>
+        <p><span>Mobile number</span><strong>{teacher.mobile || "—"}</strong></p>
+        <p><span>Designation</span><strong>{teacher.designation || "—"}</strong></p>
       </div>
 
       <div className="teacher-card-actions">
 
         <button
-          className="primary"
+          className="primary teacher-card__edit"
           onClick={() => handleEdit(teacher)}
         >
+          <Pencil size={15} aria-hidden="true" />
           Edit
         </button>
 
         <button
-          className="secondary"
+          className="secondary teacher-card__delete"
           onClick={() => handleDelete(teacher)}
         >
+          <Trash2 size={15} aria-hidden="true" />
           Delete
         </button>
 
@@ -228,7 +222,8 @@ async function confirmDeleteAction() {
           <div className="panel-drawer__content card">
             <div className="panel-drawer__header">
               <h3>{isEdit ? "Edit Teacher" : "Add Teacher"}</h3>
-              <button type="button" className="secondary" onClick={() => setPanelOpen(false)}>
+              <button type="button" className="secondary panel-drawer__close" onClick={() => setPanelOpen(false)} aria-label="Close teacher form">
+                <X size={16} aria-hidden="true" />
                 Close
               </button>
             </div>

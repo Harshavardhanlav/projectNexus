@@ -52,8 +52,13 @@ export default function Settings() {
       </div>
 
       <div className="settings-card card">
-
-        <h3>Change Password</h3>
+        <div className="settings-card__header">
+          <span className="settings-card__eyebrow">SECURITY</span>
+          <h2>Change Password</h2>
+          <p>Update your password to keep your account secure.</p>
+        </div>
+        <div className="settings-card__divider" />
+        <div className="settings-form-container">
 
         <form
           onSubmit={changePassword}
@@ -98,6 +103,7 @@ export default function Settings() {
           </button>
 
         </form>
+        </div>
 
       </div>
 

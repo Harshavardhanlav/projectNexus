@@ -109,8 +109,9 @@ export default function TeacherMyAttendance() {
         {/* Header */}
         <div className="my-attendance__header card">
           <div className="my-attendance__header-content">
-            <h1>📊 My Attendance History</h1>
-            <p>Track your attendance records and view detailed history</p>
+            <span className="my-attendance__eyebrow">NEXUS WORKSPACE</span>
+            <h1>My Reports</h1>
+            <p>View your monthly attendance performance and attendance history.</p>
           </div>
         </div>
 

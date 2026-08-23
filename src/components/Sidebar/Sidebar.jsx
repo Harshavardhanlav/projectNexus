@@ -1,11 +1,11 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
 const menuItems = [
   { label: "Dashboard", path: "/", icon: "🏠" },
   { label: "Teacher Management", path: "/teachers", icon: "👨‍🏫" },
   { label: "Mark Attendance", path: "/attendance", icon: "🖐️" },
-  { label: "My Report", path: "/attendance-reports", icon: "📊" },
+  { label: "Reports", path: "/attendance-reports", icon: "📊" },
   { label: "Calendar", path: "/calendar", icon: "📅" },
   { label: "Notices", path: "/notices", icon: "📢" },
   { label: "Tasks", path: "/tasks", icon: "✅" },
@@ -13,9 +13,7 @@ const menuItems = [
   { label: "Settings", path: "/settings", icon: "⚙️" },
 ];
 
-export function Sidebar() {
-  const navigate = useNavigate();
-
+export function Sidebar({ isOpen = false, onNavigate }) {
   const handleLogout = () => {
   // Clear everything related to authentication
   localStorage.clear(); 
@@ -25,7 +23,7 @@ export function Sidebar() {
 };
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
       <div className="sidebar__brand">
         <span className="sidebar__logo">
     <i style={{ fontStyle: "normal", marginRight: "8px", verticalAlign: "middle" }}>🎓</i>
@@ -39,6 +37,7 @@ export function Sidebar() {
           <NavLink
             key={item.label}
             to={item.path}
+            onClick={onNavigate}
             className={({ isActive }) =>
               `sidebar__link ${isActive ? "sidebar__link--active" : ""}`
             }

@@ -34,6 +34,7 @@ function App() {
    const [register, setRegister] = useState(() => initialRole === null);
    const [isUserLoggedIn, setIsUserLoggedIn] = useState(() => initialRole !== null);
    const [userRole, setUserRole] = useState(() => initialRole);
+   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
    const checkAdmin = async () => {
       try {
@@ -75,9 +76,9 @@ if (isUserLoggedIn && userRole === "admin") {
       <BrowserRouter>
          <ThemeProvider>
             <div className="app-dashboard">
-               <Sidebar />
+               <Sidebar isOpen={mobileNavOpen} onNavigate={() => setMobileNavOpen(false)} />
                <div className="app-dashboard-content">
-                  <Header />
+                  <Header onMenuClick={() => setMobileNavOpen((open) => !open)} />
                   <AppRoutes />
                </div>
             </div>
@@ -91,9 +92,9 @@ if (isUserLoggedIn && userRole === "teacher") {
       <BrowserRouter>
          <ThemeProvider>
             <div className="app-dashboard">
-               <TeacherSidebar />
+               <TeacherSidebar isOpen={mobileNavOpen} onNavigate={() => setMobileNavOpen(false)} />
                <div className="app-dashboard-content">
-                  <Header />
+                  <Header onMenuClick={() => setMobileNavOpen((open) => !open)} />
                   <TeacherRoutes />
                </div>
             </div>

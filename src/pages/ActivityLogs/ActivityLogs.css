@@ -1,119 +1,95 @@
-/* Container Box Layout */
 .activity-logs-page {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
+  max-width: 1380px;
+  min-width: 0;
+  margin: 0 auto;
+  overflow: visible;
+  animation: activityPageIn .45s ease both;
 }
-
 .activity-logs-header {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-end;
+  min-height: 196px;
+  padding: clamp(26px, 4vw, 42px);
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: #17243a;
+  box-shadow: var(--shadow-lg);
 }
+.activity-logs-header .page-header-block { min-width: 0; margin: 0; padding: 0; background: transparent; box-shadow: none; }
+.activity-logs__eyebrow { display: inline-block; margin-bottom: 14px; color: var(--primary); font-size: .71rem; font-weight: 800; letter-spacing: .13em; }
+.activity-logs-header h1 { margin: 0 0 10px; color: var(--text-primary); font-size: clamp(1.9rem, 4vw, 3rem); letter-spacing: -.045em; line-height: 1.08; }
+.activity-logs-header p { margin: 0; color: var(--text-secondary); font-size: .98rem; line-height: 1.6; }
 
-/* Status Screen Indicators */
-.activity-logs-loading,
-.activity-logs-error {
-  display: grid;
-  place-items: center;
-  min-height: 240px;
-  gap: 12px;
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid #edf2f0;
-}
-
-/* 🌟 The New Modern Activity Table Container Wrapper */
 .activity-table-container {
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid #edf2f0;
-  overflow: hidden; /* Clips corner shadows to maintain border radii */
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  padding: 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
 }
-
 .activity-table {
   width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  font-family: 'Inter', sans-serif;
+  min-width: 760px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
 }
+.activity-table th,
+.activity-table td { padding: 16px 20px; vertical-align: middle; }
+.activity-table th { background: rgba(255,255,255,.035); color: var(--text-secondary); font-size: .7rem; letter-spacing: .09em; text-transform: uppercase; }
+.activity-table th:nth-child(1) { width: 18%; }
+.activity-table th:nth-child(2) { width: 20%; }
+.activity-table th:nth-child(3) { width: 42%; }
+.activity-table th:nth-child(4) { width: 20%; }
+.activity-table td { border-bottom: 1px solid rgba(173,197,229,.08); color: var(--text-secondary); font-size: .86rem; }
+.activity-table tbody tr:last-child td { border-bottom: 0; }
+.activity-table tbody tr:nth-child(even) { background: rgba(255,255,255,.014); }
+.activity-table tbody tr:hover { background: rgba(88,214,189,.055); }
+.activity-badge { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 6px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--text-secondary); background: rgba(255,255,255,.04); font-size: .74rem; font-weight: 800; white-space: normal; }
+.activity-badge i { flex: 0 0 auto; font-style: normal; }
+.activity-badge--danger { color: var(--danger); border-color: rgba(255,124,138,.22); background: rgba(255,124,138,.08); }
+.activity-badge--warning { color: var(--warning); border-color: rgba(244,189,104,.22); background: rgba(244,189,104,.08); }
+.activity-badge--success { color: var(--success); border-color: rgba(94,224,160,.22); background: rgba(94,224,160,.08); }
+.activity-target { display: block; overflow-wrap: anywhere; color: var(--text-primary); font-weight: 700; }
+.activity-description { display: block; overflow-wrap: anywhere; color: var(--text-secondary); line-height: 1.5; }
+.activity-time-cell { color: var(--text-secondary); font-size: .8rem !important; white-space: nowrap; }
+.activity-log-cards { display: none; }
+.activity-logs-loading, .activity-logs-error { display: flex; align-items: center; justify-content: center; min-height: 260px; padding: 28px; text-align: center; }
+.activity-logs-loading { gap: 12px; color: var(--text-secondary); }
+.activity-logs-error { flex-direction: column; }
+.activity-logs-error h3 { margin: 0 0 8px; color: var(--text-primary); }
+.activity-logs-error p { margin: 0; color: var(--danger); }
 
-/* Table Header Styles */
-.activity-table th {
-  background-color: #f8faf9;
-  color: #5c6f67;
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 16px 24px;
-  border-bottom: 1px solid #edf2f0;
+@media (max-width: 1024px) {
+  .activity-table { min-width: 680px; }
+  .activity-table th, .activity-table td { padding: 14px 15px; }
+  .activity-table th:nth-child(1) { width: 20%; }
+  .activity-table th:nth-child(2) { width: 20%; }
+  .activity-table th:nth-child(3) { width: 38%; }
+  .activity-table th:nth-child(4) { width: 22%; }
 }
-
-/* Table Rows & Columns Cells */
-.activity-table td {
-  padding: 18px 24px;
-  font-size: 14px;
-  color: #1a2e26;
-  border-bottom: 1px solid #edf2f0;
-  vertical-align: middle;
-  transition: background-color 0.2s ease-in-out; /* Smooth hover transition */
+@media (max-width: 767px) {
+  .activity-logs-page { gap: 18px; }
+  .activity-logs-header { align-items: flex-start; min-height: 0; padding: 24px 18px; }
+  .activity-logs-header h1 { font-size: clamp(1.8rem, 9vw, 2.5rem); }
+  .activity-table-container { display: none; }
+  .activity-log-cards { display: grid; gap: 12px; width: 100%; min-width: 0; }
+  .activity-log-card { display: grid; gap: 14px; width: 100%; min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(255,255,255,.035); box-shadow: var(--shadow-sm); }
+  .activity-log-card__action { min-width: 0; }
+  .activity-log-card__action .activity-badge { max-width: 100%; }
+  .activity-log-card__target { display: grid; gap: 5px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .activity-log-card__target span { color: var(--text-secondary); font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+  .activity-log-card__target strong { overflow-wrap: anywhere; color: var(--text-primary); font-size: .95rem; }
+  .activity-log-card__description { margin: 0; overflow-wrap: anywhere; color: var(--text-secondary); font-size: .87rem; line-height: 1.55; }
+  .activity-log-card__time { padding-top: 12px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: .78rem; }
 }
-
-/* Subtle row hover state */
-.activity-table tbody tr:hover td {
-  background-color: #fcfdfe;
-}
-
-/* Remove bottom border on the final data row */
-.activity-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* Log Time configuration column */
-.activity-time-cell {
-  color: #7a8f85 !important;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-/* 🌟 Vibrant, Pastel Color Badges Matching the System Palette */
-.activity-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/* Type 1: Success / Creation actions (Green Theme) */
-.activity-badge--success {
-  background-color: #e2f4ed;
-  color: #115e42;
-}
-
-/* Type 2: Info / Updates actions (Blue Theme) */
-.activity-badge--info {
-  background-color: #e0f2fe;
-  color: #0369a1;
-}
-
-/* Type 3: Security / Access / Warning actions (Orange Theme) */
-.activity-badge--warning {
-  background-color: #ffedd5;
-  color: #c2410c;
-}
-
-/* Type 4: Danger / Delete actions (Red Theme) */
-.activity-badge--danger {
-  background-color: #fee2e2;
-  color: #dc2626;
-}
-
-/* 3D Emoji Drop Shadow effect matching your Sidebar */
-.activity-badge i {
-  font-style: normal;
-  font-size: 15px;
-  line-height: 1;
-  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.15));
-}
+@media (prefers-reduced-motion: reduce) { .activity-logs-page { animation: none; } }
+@keyframes activityPageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

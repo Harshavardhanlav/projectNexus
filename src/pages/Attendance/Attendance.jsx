@@ -47,18 +47,19 @@ export default function Attendance() {
     <section className="attendance-page">
       <div className="attendance-page__header card">
         <div className="page-header-block">
-          <h2>📲Attendance Records</h2>
-          <p>Review attendance status for teachers across the school.</p>
+          <span className="attendance-page__eyebrow">ATTENDANCE OPERATIONS</span>
+          <h1>Mark Attendance</h1>
+          <p>Review and manage teacher attendance records across the school.</p>
         </div>
       </div>
 
       <div className="attendance-page__toolbar card">
-        <label>
-          🔍Search
+        <label className="attendance-filter-field">
+          <span className="attendance-filter-label">Search records</span>
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Teacher ID or status" />
         </label>
-        <label>
-          Filter by Status
+        <label className="attendance-filter-field attendance-filter-field--select">
+          <span className="attendance-filter-label">Filter by status</span>
           <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
             <option value="">All</option>
             <option value="Present">Present</option>
@@ -81,6 +82,13 @@ export default function Attendance() {
         <EmptyState title="No attendance records" message="Use the attendance interface to begin capturing staff attendance." />
       ) : (
         <div className="attendance-table card">
+          <div className="attendance-table__heading">
+            <div>
+              <span className="attendance-table__eyebrow">RECORDS</span>
+              <h2>Attendance activity</h2>
+            </div>
+            <span className="attendance-table__count">{filteredRecords.length} records</span>
+          </div>
           <table>
             <thead>
               <tr>
@@ -95,8 +103,10 @@ export default function Attendance() {
                 <tr key={record._id || `${record.teacherId}-${record.attendanceDate}`}>
                   <td>{record.teacherId}</td>
                   <td>{new Date(record.attendanceDate).toLocaleDateString()}</td>
-                  <td>{record.status}</td>
-                  <td>{record.latitude && record.longitude ? `${record.latitude.toFixed(2)}, ${record.longitude.toFixed(2)}` : "N/A"}</td>
+                  <td><span className={`attendance-status attendance-status--${record.status?.toLowerCase() === "present" ? "present" : "absent"}`}>{record.status}</span></td>
+                  <td className={!record.latitude || !record.longitude ? "attendance-location attendance-location--empty" : "attendance-location"}>
+                    {record.latitude && record.longitude ? `${record.latitude.toFixed(2)}, ${record.longitude.toFixed(2)}` : "N/A"}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -1,10 +1,10 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./TeacherSidebar.css";
 
 const menuItems = [
   { label: "Dashboard", path: "/teacher/dashboard", icon: "🏠" },
   { label: "Mark Attendance", path: "/teacher/attendance", icon: "🖐️" },
-  { label: "My Attendance", path: "/teacher/my-attendance", icon: "📊" },
+  { label: "My Reports", path: "/teacher/my-attendance", icon: "📊" },
   { label: "My Tasks", path: "/teacher/tasks", icon: "✅" },
   { label: "Notices", path: "/teacher/notices", icon: "📢" },
   { label: "Calendar", path: "/teacher/calendar", icon: "📅" },
@@ -12,9 +12,7 @@ const menuItems = [
   { label: "Settings", path: "/teacher/settings", icon: "⚙️" },
 ];
 
-export function TeacherSidebar() {
-  const navigate = useNavigate();
-
+export function TeacherSidebar({ isOpen = false, onNavigate }) {
   const handleLogout = () => {
     localStorage.removeItem("userRole");
     localStorage.removeItem("teacherID");
@@ -24,7 +22,7 @@ export function TeacherSidebar() {
   };
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
       <div className="sidebar__brand">
         <span className="sidebar__logo">
           <i style={{ fontStyle: "normal", marginRight: "8px", verticalAlign: "middle" }}>🎓</i>
@@ -38,6 +36,7 @@ export function TeacherSidebar() {
           <NavLink
             key={item.label}
             to={item.path}
+            onClick={onNavigate}
             className={({ isActive }) =>
               `sidebar__link ${isActive ? "sidebar__link--active" : ""}`
             }

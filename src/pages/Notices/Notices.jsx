@@ -133,21 +133,25 @@ function handleDelete(notice) {
     <section className="notices-page">
       <div className="notices-page__header">
         <div className="page-header-block">
-          <h2>🔔 Notices</h2>
-          <p>View and manage all published notices.</p>
+          <span className="notices-page__eyebrow">NEXUS WORKSPACE</span>
+          <h1>Notices</h1>
+          <p>Keep your community informed</p>
         </div>
 
         <button
           className="primary"
           onClick={() => setShowForm(true)}
         >
-          + Create Notice
+          <span>+ Create Notice</span>
         </button>
       </div>
 
       <div className="notices-page__layout">
         <div className="notices-list card">
-          <h3>Published Notices</h3>
+          <div className="notices-list__heading">
+            <span className="notices-list__eyebrow">PUBLISHED UPDATES</span>
+            <h2>Published Notices</h2>
+          </div>
           
           <div className="search-box">
             <span className="search-icon">

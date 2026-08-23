@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   createCalendarDate,
   getCalendarDates,
@@ -24,6 +24,64 @@ const monthNames = [
   "December",
 ];
 
+function CalendarSelect({ value, options, onChange, ariaLabel }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectRef = useRef(null);
+  const selectedOption = options.find((option) => String(option.value) === String(value));
+
+  useEffect(() => {
+    function closeSelect(event) {
+      if (!selectRef.current?.contains(event.target)) setIsOpen(false);
+    }
+
+    function closeOnEscape(event) {
+      if (event.key === "Escape") setIsOpen(false);
+    }
+
+    document.addEventListener("mousedown", closeSelect);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("mousedown", closeSelect);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
+
+  return (
+    <div className={`calendar-select ${isOpen ? "calendar-select--open" : ""}`} ref={selectRef}>
+      <button
+        type="button"
+        className="calendar-select__trigger"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label={ariaLabel}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span>{selectedOption?.label || "Select an option"}</span>
+        <span className="calendar-select__chevron" aria-hidden="true">⌄</span>
+      </button>
+      {isOpen && (
+        <div className="calendar-select__menu" role="listbox" aria-label={ariaLabel}>
+          {options.map((option) => (
+            <button
+              type="button"
+              role="option"
+              aria-selected={String(option.value) === String(value)}
+              className={`calendar-select__option ${String(option.value) === String(value) ? "calendar-select__option--selected" : ""}`}
+              key={String(option.value)}
+              onClick={() => {
+                onChange(option.value);
+                setIsOpen(false);
+              }}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Contextual Event Emoji Determiner
 const getEventEmoji = (eventTitle) => {
   if (!eventTitle) return '📅';
@@ -44,6 +102,7 @@ export default function CalendarPage() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedRecord, setSelectedRecord] = useState(null);
+  const formRef = useRef(null);
 
   const toDateOnlyISOString = (date) => {
     const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0));
@@ -57,7 +116,16 @@ export default function CalendarPage() {
   const [form, setForm] = useState({ title: "", description: "", dayType: "Working", hasEvent: false });
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [message, setMessage] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (!panelOpen) return undefined;
+
+    const frameId = window.requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [panelOpen, selectedDate]);
 
   useEffect(() => {
     loadCalendar();
@@ -129,8 +197,6 @@ function openDatePanel(date, record) {
     hasEvent: true
   });
 
-  setIsEditing(false);
-
   setPanelOpen(true);
 
 }
@@ -139,8 +205,8 @@ function openDatePanel(date, record) {
     setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
   }
 
-  function handleMonthChange(event) {
-    const monthIndex = Number(event.target.value);
+  function handleMonthChange(valueOrEvent) {
+    const monthIndex = Number(typeof valueOrEvent === "object" ? valueOrEvent.target.value : valueOrEvent);
     setCurrentDate((prev) => new Date(prev.getFullYear(), monthIndex, 1));
   }
 
@@ -193,8 +259,6 @@ async function saveEvent() {
 
     setSelectedRecord(null);
 
-    setIsEditing(false);
-
   } catch (submitError) {
 
     setMessage(submitError.message);
@@ -231,16 +295,9 @@ await deleteCalendarDate(
     <section className="calendar-page">
       <div className="calendar-page__header card">
         <div className="page-header-block">
-          <h2>📅 School Calendar</h2>
-          <p>Manage holidays, events, and working Sundays with a modern calendar interface.</p>
-        </div>
-        <div className="calendar-page__controls">
-          <button type="button" className="secondary" onClick={() => handleNavigation(-1)}>
-            Previous Month
-          </button>
-          <button type="button" className="secondary" onClick={() => handleNavigation(1)}>
-            Next Month
-          </button>
+          <span className="calendar-page__eyebrow">NEXUS WORKSPACE</span>
+          <h1>Calendar</h1>
+          <p>Manage school events and working days.</p>
         </div>
       </div>
 
@@ -248,20 +305,27 @@ await deleteCalendarDate(
         <div className="calendar-page__jump">
           <label>
             Month
-            <select value={currentDate.getMonth()} onChange={handleMonthChange}>
-              {monthNames.map((name, index) => (
-                <option key={name} value={index}>
-                  {name}
-                </option>
-              ))}
-            </select>
+            <CalendarSelect
+              value={currentDate.getMonth()}
+              ariaLabel="Select calendar month"
+              onChange={handleMonthChange}
+              options={monthNames.map((name, index) => ({ value: index, label: name }))}
+            />
           </label>
           <label>
             Year
             <input type="number" value={currentDate.getFullYear()} onChange={handleYearChange} min="2020" />
           </label>
         </div>
-        <div className="calendar-page__selected-month">{currentMonthLabel}</div>
+        <div className="calendar-page__toolbar-actions">
+          <div className="calendar-page__selected-month">{currentMonthLabel}</div>
+          <button type="button" className="secondary" onClick={() => handleNavigation(-1)}>
+            Previous Month
+          </button>
+          <button type="button" className="secondary" onClick={() => handleNavigation(1)}>
+            Next Month
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -296,6 +360,7 @@ await deleteCalendarDate(
                 isSunday ? "calendar-grid__cell--sunday" : "",
                 isHoliday ? "calendar-grid__cell--holiday" : "",
                 isWorking ? "calendar-grid__cell--working" : "",
+                selectedDate && cell.date?.toDateString() === selectedDate.toDateString() ? "calendar-grid__cell--selected" : "",
                 hasEvent ? "calendar-grid__cell--event" : ""
               ].filter(Boolean).join(" ");
 
@@ -327,111 +392,51 @@ await deleteCalendarDate(
         </div>
       )}
 
-      {/* Control Form Side Drawer Overlay */}
+      {/* Keep the selected-date editor in the normal Calendar document flow. */}
       {panelOpen && (
-        <div className="panel-drawer" onClick={() => setPanelOpen(false)}>
-          <div className="panel-drawer__content" onClick={(e) => e.stopPropagation()}>
-            <div className="panel-drawer__header">
-              <h3>{selectedDate ? selectedDate.toLocaleDateString('en-US', { dateStyle: 'long' }) : "Manage Date"}</h3>
+        <section ref={formRef} className="calendar-event-form card" aria-labelledby="calendar-event-form-title">
+          <div className="calendar-event-form__header">
+            <div>
+              <span className="calendar-event-form__eyebrow">SELECTED DATE</span>
+              <h2 id="calendar-event-form-title">{selectedDate ? selectedDate.toLocaleDateString("en-US", { dateStyle: "long" }) : "Manage Date"}</h2>
             </div>
-{selectedRecord && !isEditing ? (
-
-  <div className="event-details">
-
-    <h3>{selectedRecord.title}</h3>
-
-    <p>{selectedRecord.description}</p>
-
-    <div className="event-type">
-      {selectedRecord.dayType}
-    </div>
-
-    <div className="event-actions">
-
-      <button
-        type="button"
-        className="primary"
-        onClick={() => setIsEditing(true)}
-      >
-        Edit Event
-      </button>
-
-      <button
-        type="button"
-        className="secondary delete-btn"
-        onClick={() => setConfirmDelete(true)}
-      >
-        Delete Event
-      </button>
-
-    </div>
-
-  </div>
-
-) : (
-
-  <>
-    <label>
-      Event Title
-      <input
-        type="text"
-        name="title"
-        value={form.title}
-        onChange={handleInputChange}
-        required
-      />
-    </label>
-
-    <label>
-      Description
-      <textarea
-        name="description"
-        value={form.description}
-        onChange={handleInputChange}
-      />
-    </label>
-
-    <label>
-      Day Type
-      <select
-        name="dayType"
-        value={form.dayType}
-        onChange={handleInputChange}
-      >
-        <option value="Working">
-          Working Day
-        </option>
-
-        <option value="Holiday">
-          Holiday
-        </option>
-      </select>
-    </label>
-
-    <div className="panel-drawer__cta">
-
-      <button
-        type="button"
-        className="secondary"
-        onClick={() => setPanelOpen(false)}
-      >
-        Cancel
-      </button>
-
-<button
-  type="button"
-  className="primary"
-  onClick={saveEvent}
->
-  Save Event
-</button>
-
-    </div>
-  </>
-
-)}
+            {selectedRecord && <span className="calendar-event-form__existing">Existing event</span>}
           </div>
-        </div>
+          <div className="calendar-event-form__fields">
+            <label>
+              Event Title
+              <input type="text" name="title" value={form.title} onChange={handleInputChange} required />
+            </label>
+            <label>
+              Description
+              <textarea name="description" value={form.description} onChange={handleInputChange} />
+            </label>
+            <label>
+              Day Type
+              <CalendarSelect
+                value={form.dayType}
+                ariaLabel="Select day type"
+                onChange={(value) => handleInputChange({ target: { name: "dayType", value, type: "select-one" } })}
+                options={[
+                  { value: "Working", label: "Working Day" },
+                  { value: "Holiday", label: "Holiday" },
+                ]}
+              />
+            </label>
+          </div>
+          {message && <p className="calendar-event-form__message">{message}</p>}
+          <div className="calendar-event-form__actions">
+            {selectedRecord && (
+              <button type="button" className="secondary delete-btn" onClick={() => setConfirmDelete(true)}>
+                Delete Event
+              </button>
+            )}
+            <button type="button" className="secondary" onClick={() => setPanelOpen(false)}>Cancel</button>
+            <button type="button" className="primary" onClick={saveEvent} disabled={saving}>
+              {saving ? "Saving..." : "Save Event"}
+            </button>
+          </div>
+        </section>
       )}
 
       {confirmDelete && (

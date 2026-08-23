@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getTeachers, getTeacherAttendanceReport } from "../../services/api";
 import { StatsCard } from "../../components/StatsCard/StatsCard";
 import { AttendanceChart } from "../../components/AttendanceChart/AttendanceChart";
@@ -20,6 +20,64 @@ const months = [
   "November",
   "December",
 ];
+
+function ReportSelect({ value, options, onChange, ariaLabel }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectRef = useRef(null);
+  const selectedOption = options.find((option) => String(option.value) === String(value));
+
+  useEffect(() => {
+    function closeOnOutsideClick(event) {
+      if (!selectRef.current?.contains(event.target)) setIsOpen(false);
+    }
+
+    function closeOnEscape(event) {
+      if (event.key === "Escape") setIsOpen(false);
+    }
+
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
+
+  return (
+    <div className={`report-select ${isOpen ? "report-select--open" : ""}`} ref={selectRef}>
+      <button
+        type="button"
+        className="report-select__trigger"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label={ariaLabel}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span>{selectedOption?.label || "Select an option"}</span>
+        <span className="report-select__chevron" aria-hidden="true">⌄</span>
+      </button>
+      {isOpen && (
+        <div className="report-select__menu" role="listbox" aria-label={ariaLabel}>
+          {options.map((option) => (
+            <button
+              type="button"
+              role="option"
+              aria-selected={String(option.value) === String(value)}
+              className={`report-select__option ${String(option.value) === String(value) ? "report-select__option--selected" : ""}`}
+              key={String(option.value)}
+              onClick={() => {
+                onChange(option.value);
+                setIsOpen(false);
+              }}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AttendanceReports() {
   const [teachers, setTeachers] = useState([]);
@@ -85,32 +143,36 @@ export default function AttendanceReports() {
     <section className="attendance-reports-page">
       <div className="attendance-reports-header card">
         <div className="page-header-block">
-          <h2>📊Attendance Reports</h2>
-          <p>View monthly attendance performance for each teacher in NEXUS.</p>
+          <span className="attendance-reports__eyebrow">NEXUS WORKSPACE</span>
+          <h1>Reports</h1>
+          <p>View monthly attendance performance and reports across NEXUS.</p>
         </div>
       </div>
 
       <div className="attendance-reports__filters card">
-        <label>
-          Teacher
-          <select value={selectedTeacher} onChange={(event) => setSelectedTeacher(event.target.value)}>
-            {teachers.map((teacher) => (
-              <option key={teacher._id || teacher.teacherID} value={teacher.teacherID}>
-                {teacher.fullName} ({teacher.teacherID})
-              </option>
-            ))}
-          </select>
+        <label className="attendance-reports__field">
+          <span>Teacher</span>
+          <ReportSelect
+            value={selectedTeacher}
+            ariaLabel="Select teacher"
+            onChange={setSelectedTeacher}
+            options={teachers.map((teacher) => ({
+              value: teacher.teacherID,
+              label: `${teacher.fullName} (${teacher.teacherID})`,
+            }))}
+          />
         </label>
-        <label>
-          Month
-          <select value={month} onChange={(event) => setMonth(Number(event.target.value))}>
-            {months.map((name, index) => (
-              <option key={name} value={index}>{name}</option>
-            ))}
-          </select>
+        <label className="attendance-reports__field">
+          <span>Month</span>
+          <ReportSelect
+            value={month}
+            ariaLabel="Select month"
+            onChange={setMonth}
+            options={months.map((name, index) => ({ value: index, label: name }))}
+          />
         </label>
-        <label>
-          Year
+        <label className="attendance-reports__field">
+          <span>Year</span>
           <input type="number" value={year} onChange={(event) => setYear(Number(event.target.value))} min="2020" />
         </label>
       </div>
@@ -135,11 +197,19 @@ export default function AttendanceReports() {
       ) : (
         <>
           <div className="attendance-reports__stats">
-            <StatsCard label="📊Attendance %" value={`${report.attendancePercentage || 0}%`} />
-            <StatsCard label="🟢Present Days" value={report.presentDays || 0} />
-            <StatsCard label="📅Working Days" value={report.totalWorkingDays || 0} />
+            <StatsCard label="Attendance Percentage" value={`${report.attendancePercentage || 0}%`} />
+            <StatsCard label="Present Days" value={report.presentDays || 0} />
+            <StatsCard label="Absent Days" value={Math.max(Number(report.totalWorkingDays || 0) - Number(report.presentDays || 0), 0)} />
+            <StatsCard label="Working Days" value={report.totalWorkingDays || 0} />
           </div>
           <div className="attendance-reports__chart card">
+            <div className="attendance-reports__chart-heading">
+              <div>
+                <span>PERFORMANCE</span>
+                <h2>Monthly Attendance Overview</h2>
+              </div>
+              <span>{months[month]} {year}</span>
+            </div>
             <AttendanceChart data={chartData} />
           </div>
         </>

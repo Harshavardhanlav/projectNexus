@@ -3,6 +3,7 @@ import { createTask, getTasks, deleteTask, updateTask, getTeachers } from "../..
 import  EmptyState  from "../../components/EmptyState/EmptyState";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
 import { ConfirmModal } from "../../components/ConfirmModal/ConfirmModal";
+import { CalendarDays, ClipboardCheck, Pencil, Plus, Search, Trash2, UserRound } from "lucide-react";
 import "./Tasks.css";
 const initialForm = {
   title: "",
@@ -140,31 +141,32 @@ const filteredTasks = tasks.filter((task) => {
 });
   return (
     <section className="tasks-page">
-<div className="tasks-page__header card">
-
-  <div className="page-header-block">
-    <h2>📝Tasks</h2>
-    <p>Manage and track all teacher tasks.</p>
-  </div>
-
-  <button
-    className="primary"
-    onClick={() => setShowForm(true)}
-  >
-    + Create Task
-  </button>
-
-</div>
+      <div className="tasks-page__header">
+        <div className="tasks-page__header-copy">
+          <span className="tasks-page__eyebrow">TASK MANAGEMENT</span>
+          <h1>Tasks</h1>
+          <p>Manage and track all teacher tasks.</p>
+        </div>
+        <button className="primary tasks-page__create" onClick={() => setShowForm(true)}>
+          <Plus size={17} aria-hidden="true" />
+          <span>Create Task</span>
+        </button>
+      </div>
 
       <div className="tasks-page__layout">
 
         <div className="tasks-list card">
-          <h3>📋Task List</h3>
+          <div className="tasks-list__heading">
+            <div>
+              <span className="tasks-list__eyebrow">WORK QUEUE</span>
+              <h2>Task List</h2>
+            </div>
+            <span className="tasks-list__count">{filteredTasks.length} tasks</span>
+          </div>
           <div className="tasks-toolbar">
 
   <div className="tasks-search-box">
-
-    <span className="tasks-search-icon">🔍</span>
+    <Search className="tasks-search-icon" size={18} aria-hidden="true" />
 
     <input
       type="text"
@@ -202,45 +204,19 @@ const filteredTasks = tasks.filter((task) => {
           ) : (
             <div className="tasks-grid">
               {filteredTasks.map((task) => (
-<article
-  key={task._id || task.title}
-  className="task-card"
->
-
-  <div className="task-header">
-
-    <h4 className="task-title">
-      {task.title}
-    </h4>
-
-    <span
-      className={`task-status task-status-${task.status?.toLowerCase()}`}
-    >
-      {task.status}
-    </span>
-
-  </div>
-
-  <div className="task-description">
-
-    {task.description}
-
-  </div>
-
-  <div className="task-meta">
-
-    <div className="task-meta-item">
-      👨‍🏫 {task.assignedTo}
+<article key={task._id || task.title} className="task-card">
+  <div className="task-card__icon"><ClipboardCheck size={20} aria-hidden="true" /></div>
+  <div className="task-card__body">
+    <div className="task-header">
+      <h3 className="task-title">{task.title}</h3>
+      <span className={`task-status task-status-${task.status?.toLowerCase()}`}>{task.status}</span>
     </div>
-
-    <div className="task-meta-item">
-      ⏰ {task.deadline
-        ? new Date(task.deadline).toLocaleDateString()
-        : "No Deadline"}
+    <div className="task-description">{task.description}</div>
+    <div className="task-meta">
+      <div className="task-meta-item"><UserRound size={14} aria-hidden="true" /> {task.assignedTo || "Unassigned"}</div>
+      <div className="task-meta-item"><CalendarDays size={14} aria-hidden="true" /> {task.deadline ? new Date(task.deadline).toLocaleDateString() : "No Deadline"}</div>
     </div>
-
   </div>
-
   <div className="task-card__actions">
 
     <button
@@ -248,7 +224,7 @@ const filteredTasks = tasks.filter((task) => {
       className="secondary"
       onClick={() => handleEdit(task)}
     >
-      Edit
+      <Pencil size={14} aria-hidden="true" /> Edit
     </button>
 
     <button
@@ -256,7 +232,7 @@ const filteredTasks = tasks.filter((task) => {
       className="secondary"
       onClick={() => handleDelete(task)}
     >
-      Delete
+      <Trash2 size={14} aria-hidden="true" /> Delete
     </button>
 
   </div>
