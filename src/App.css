@@ -1,2 +1,2 @@
 html, body, #root { width: 100%; overflow-x: hidden; }
-.app-dashboard-content { display: flex; flex-direction: column; }
+.app-dashboard-content { display: flex; flex-direction: column; background-color: #080d18; background-attachment: fixed; }
