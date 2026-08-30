@@ -1,1 +1,325 @@
-/* Authenticated UI is centralized in src/styles/Authenticated.css. */
+/* Teacher Mark Attendance - Improved Layout */
+
+.mark-attendance-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  animation: pageEnter .45s ease both;
+}
+
+.mark-attendance__container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header - Flatten the card design */
+.mark-attendance__hero {
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(88,214,189,.08), rgba(88,214,189,.02)), var(--surface);
+}
+
+.mark-attendance__hero-content h1 {
+  margin: 0 0 8px;
+  color: var(--text-primary);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.mark-attendance__hero-content p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: .9rem;
+}
+
+/* Teacher Info - Compact grid instead of separate card */
+.mark-attendance__info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.mark-attendance__info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mark-attendance__label {
+  color: var(--text-secondary);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.mark-attendance__value {
+  color: var(--text-primary);
+  font-size: .95rem;
+  font-weight: 600;
+}
+
+.mark-attendance__time {
+  font-family: 'Manrope', monospace;
+  font-size: 1rem;
+}
+
+/* Location Card - Integrate better */
+.mark-attendance__location-card {
+  padding: 22px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.mark-attendance__location-card h3 {
+  margin: 0 0 18px;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.mark-attendance__location-data {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mark-attendance__location-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.02);
+}
+
+.mark-attendance__no-location {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px;
+  text-align: center;
+}
+
+.mark-attendance__no-location p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: .9rem;
+}
+
+/* Status Indicator */
+.mark-attendance__status-indicator {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.mark-attendance__status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.status--inside {
+  color: #10b981;
+  background: rgba(16,185,129,.12);
+  border: 1px solid rgba(16,185,129,.25);
+}
+
+.status--outside {
+  color: #ff7c8a;
+  background: rgba(255,124,138,.12);
+  border: 1px solid rgba(255,124,138,.25);
+}
+
+/* Distance display */
+.mark-attendance__distance--inside {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.mark-attendance__distance--outside {
+  color: #ff7c8a;
+  font-weight: 700;
+}
+
+/* Buttons */
+.mark-attendance__btn {
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  background: var(--surface-secondary);
+  font-size: .85rem;
+  font-weight: 700;
+  transition: transform .2s, background .2s, border-color .2s;
+  cursor: pointer;
+}
+
+.mark-attendance__btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.mark-attendance__btn--primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #5dd9c1);
+  border-color: var(--primary);
+}
+
+.mark-attendance__btn--primary:hover:not(:disabled) {
+  box-shadow: 0 8px 20px rgba(88,214,189,.25);
+}
+
+.mark-attendance__btn--secondary {
+  background: rgba(88,214,189,.1);
+  border-color: rgba(88,214,189,.25);
+  color: var(--primary);
+}
+
+.mark-attendance__btn--submit {
+  width: 100%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border-color: #10b981;
+}
+
+.mark-attendance__btn--submit:hover:not(:disabled) {
+  box-shadow: 0 8px 20px rgba(16,185,129,.25);
+}
+
+.mark-attendance__btn--submit.disabled,
+.mark-attendance__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mark-attendance__btn--cancel {
+  background: rgba(255,124,138,.1);
+  border-color: rgba(255,124,138,.25);
+  color: #ff7c8a;
+}
+
+/* Action Buttons Container */
+.mark-attendance__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.mark-attendance__actions .mark-attendance__btn {
+  flex: 1;
+}
+
+/* Success/Already Marked Section */
+.mark-attendance__success-complete {
+  padding: 28px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(145deg, rgba(16,185,129,.08), rgba(16,185,129,.02)), var(--surface);
+  text-align: center;
+}
+
+.mark-attendance__success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.mark-attendance__success-icon-large {
+  font-size: 3rem;
+}
+
+.mark-attendance__success-complete h2 {
+  margin: 8px 0;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+}
+
+.mark-attendance__success-complete p {
+  margin: 4px 0;
+  color: var(--text-secondary);
+}
+
+.mark-attendance__marked-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(16,185,129,.05);
+}
+
+/* Error Message */
+.mark-attendance__error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-left: 3px solid #ff7c8a;
+  border-radius: var(--radius-md);
+  background: rgba(255,124,138,.08);
+}
+
+.mark-attendance__error-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.mark-attendance__error p {
+  margin: 0;
+  color: #ff7c8a;
+  font-size: .9rem;
+}
+
+/* Success Message */
+.mark-attendance__success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: rgba(16,185,129,.1);
+}
+
+.mark-attendance__success-icon {
+  font-size: 1.2rem;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .mark-attendance__info {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .mark-attendance__actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .mark-attendance__info {
+    grid-template-columns: 1fr;
+  }
+  
+  .mark-attendance__location-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
