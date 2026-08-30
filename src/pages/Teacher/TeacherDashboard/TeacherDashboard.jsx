@@ -50,17 +50,18 @@ export default function TeacherDashboard() {
           )
         );
 
+        // Check localStorage first for manually marked attendance (priority)
         const today = new Date().toDateString();
-        const todayRecord = (attendanceData || []).find((record) => {
-          const recordDate = new Date(record.attendanceDate).toDateString();
-          return recordDate === today;
-        });
+        const storedDate = localStorage.getItem("attendanceMarkedDate");
+        const storedStatus = localStorage.getItem("attendanceStatus");
 
-        setAttendanceStatus(
-          todayRecord
-            ? todayRecord.status || "Present"
-            : "Not marked"
-        );
+        if (storedDate === today && storedStatus) {
+          // Teacher manually marked attendance
+          setAttendanceStatus(storedStatus);
+        } else {
+          // No manual marking - show "Not marked" (ignore backend auto-absent)
+          setAttendanceStatus("Not marked");
+        }
       } catch (fetchError) {
         setError(fetchError.message || "Something went wrong.");
       } finally {
@@ -138,7 +139,11 @@ export default function TeacherDashboard() {
                 <StatsCard
                   label="Today's Attendance"
                   value={
-                    <span className={`attendance-status-dot ${attendanceStatusClass}`} />
+                    <span className={`attendance-status-badge ${attendanceStatusClass}`}>
+                      {attendanceStatus === "Present" && "✅ Present"}
+                      {attendanceStatus === "Absent" && "❌ Absent"}
+                      {attendanceStatus === "Not marked" && "⏳ Not Marked"}
+                    </span>
                   }
                 />
                 <StatsCard

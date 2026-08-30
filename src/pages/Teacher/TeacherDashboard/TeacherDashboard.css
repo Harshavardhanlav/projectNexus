@@ -1,1 +1,32 @@
 /* Authenticated UI is centralized in src/styles/Authenticated.css. */
+
+/* Attendance Status Badge */
+.attendance-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.attendance-status-badge.status-present {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.attendance-status-badge.status-absent {
+  color: #ff7c8a;
+  background: rgba(255, 124, 138, 0.12);
+  border: 1px solid rgba(255, 124, 138, 0.25);
+}
+
+.attendance-status-badge.status-not-marked {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+}
