@@ -12,4 +12,3 @@ router.delete("/:id", deleteNotice);
 router.put("/:id", updateNotice);
 router.get("/", getNotices);
 module.exports = router;
-
