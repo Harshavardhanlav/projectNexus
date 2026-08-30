@@ -21,37 +21,26 @@ export default function TeacherMarkAttendance() {
 
   const teacher = JSON.parse(localStorage.getItem("teacherData")) || {};
 
-  // Check if attendance already marked today (either present or absent)
+  // Check if attendance already marked today (only from localStorage - teacher's manual action)
   useEffect(() => {
     async function loadTodayAttendance() {
       const todayDateString = new Date().toDateString();
       const storedDate = localStorage.getItem("attendanceMarkedDate");
       const storedTime = localStorage.getItem("attendanceMarkedTime");
+      const storedStatus = localStorage.getItem("attendanceStatus");
 
-      if (storedDate === todayDateString) {
+      // Only show "Already Marked" if teacher manually marked it (localStorage entry exists)
+      // This distinguishes manual marking from backend auto-marking
+      if (storedDate === todayDateString && storedStatus) {
         setAttendanceMarked(true);
-        setAttendanceStatus("Present");
+        setAttendanceStatus(storedStatus);
         setMarkedTime(storedTime);
         return;
       }
 
-      if (!teacher.teacherID) return;
-
-      try {
-        const attendanceData = await getTeacherAttendanceRecords(teacher.teacherID);
-        const todayRecord = (attendanceData || []).find((record) => {
-          const recordDate = new Date(record.attendanceDate).toDateString();
-          return recordDate === todayDateString;
-        });
-
-        if (todayRecord) {
-          setAttendanceMarked(true);
-          setAttendanceStatus(todayRecord.status || "Present");
-          setMarkedTime(new Date(todayRecord.attendanceDate).toLocaleTimeString());
-        }
-      } catch (err) {
-        console.warn("Unable to load today attendance", err);
-      }
+      // If no localStorage record, show "Not marked" even if backend has an auto-absent record
+      // This ensures the UI shows a neutral state before the teacher manually marks
+      setAttendanceStatus("Not marked");
     }
 
     loadTodayAttendance();
@@ -135,7 +124,9 @@ export default function TeacherMarkAttendance() {
         const today = new Date().toDateString();
         localStorage.setItem("attendanceMarkedDate", today);
         localStorage.setItem("attendanceMarkedTime", new Date().toLocaleTimeString());
+        localStorage.setItem("attendanceStatus", "Present"); // Store the actual status
         setAttendanceMarked(true);
+        setAttendanceStatus("Present");
         setMarkedTime(new Date().toLocaleTimeString());
         
         // Redirect to dashboard after 2 seconds
