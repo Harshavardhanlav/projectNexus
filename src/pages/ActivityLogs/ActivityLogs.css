@@ -82,7 +82,7 @@
   .activity-logs-header h1 { font-size: clamp(1.8rem, 9vw, 2.5rem); }
   .activity-table-container { display: none; }
   .activity-log-cards { display: grid; gap: 12px; width: 100%; min-width: 0; }
-  .activity-log-card { display: grid; gap: 14px; width: 100%; min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(255,255,255,.035); box-shadow: var(--shadow-sm); }
+  .activity-log-card { display: grid; gap: 14px; width: 100%; min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(88,214,189,.055); box-shadow: var(--shadow-sm); }
   .activity-log-card__action { min-width: 0; }
   .activity-log-card__action .activity-badge { max-width: 100%; }
   .activity-log-card__target { display: grid; gap: 5px; padding-top: 12px; border-top: 1px solid var(--border); }
