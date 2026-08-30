@@ -10,14 +10,15 @@
 .my-attendance__header h1 { margin: 0 0 6px; color: var(--text-primary); font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -.035em; line-height: 1.1; }
 .my-attendance__header p { margin: 0; color: var(--text-secondary); font-size: .88rem; line-height: 1.4; }
 .my-attendance__summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.my-attendance__summary .summary-card { min-height: 130px; padding: 18px; border-radius: var(--radius-md); }
+.my-attendance__summary .summary-card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 130px; padding: 18px; border-radius: var(--radius-md); gap: 8px; }
 .my-attendance__summary .summary-card--total { background: linear-gradient(145deg, rgba(88,214,189,.12), rgba(16,24,39,.1)), var(--surface); }
 .my-attendance__summary .summary-card--present { background: linear-gradient(145deg, rgba(88,214,189,.16), rgba(16,24,39,.1)), var(--surface); }
 .my-attendance__summary .summary-card--absent { background: linear-gradient(145deg, rgba(255,124,138,.09), rgba(16,24,39,.1)), var(--surface); }
 .my-attendance__summary .summary-card--percentage { background: linear-gradient(145deg, rgba(167,139,250,.12), rgba(16,24,39,.1)), var(--surface); }
-.summary-card__content { display: flex; flex-direction: column; gap: 6px; }
-.summary-card__label { color: var(--text-secondary); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-.summary-card__value { color: var(--text-primary); font-family: 'Manrope', sans-serif; font-size: 1.5rem; font-weight: 800; }
+.summary-card__icon { font-size: 2.2rem; line-height: 1; }
+.summary-card__content { display: flex; flex-direction: column; gap: 4px; align-items: center; justify-content: center; width: 100%; }
+.summary-card__label { color: var(--text-secondary); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin: 0; }
+.summary-card__value { color: var(--text-primary); font-family: 'Manrope', sans-serif; font-size: 1.8rem; font-weight: 800; margin: 0; }
 .my-attendance__filters { display: flex; align-items: flex-end; gap: 20px; padding: 16px 18px; border-radius: var(--radius-md); background: var(--surface); flex-wrap: wrap; }
 .filter-group { min-width: 0; }
 .filter-label { display: block; margin-bottom: 6px; color: var(--text-secondary); font-size: .7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
