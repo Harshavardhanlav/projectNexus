@@ -39,14 +39,22 @@ body[data-theme="light"] {
   --shadow-sm: 0 5px 16px rgba(34, 57, 92, .08);
   --shadow-md: 0 18px 42px rgba(34, 57, 92, .11);
   --shadow-lg: 0 30px 80px rgba(34, 57, 92, .16);
+  background-color: #f3f6fb;
+  background-image: none;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body, #root { min-height: 100%; margin: 0; padding: 0; }
+html {
+  background-color: #080d18;
+  background-attachment: fixed;
+}
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background: radial-gradient(circle at 85% -10%, rgba(167, 139, 250, .16), transparent 28%), radial-gradient(circle at 20% 0%, rgba(88, 214, 189, .09), transparent 22%), var(--background);
+  background-color: #080d18;
+  background-image: radial-gradient(circle at 85% -10%, rgba(167, 139, 250, .16), transparent 28%), radial-gradient(circle at 20% 0%, rgba(88, 214, 189, .09), transparent 22%);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
